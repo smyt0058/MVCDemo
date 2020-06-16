@@ -11,9 +11,11 @@ import com.cbsa.madd.mvcdemo.networking.MockAPISchema
 import com.cbsa.madd.mvcdemo.networking.MockAPISchemaItem
 import kotlinx.android.synthetic.main.question_list_item.view.*
 
-class QuestionsListAdapter(private val context: Context, private val dataSource: MockAPISchema, onQuestionClickListener: OnQuestionClickListener) : BaseAdapter() {
+class QuestionsListAdapter(private val context: Context, onQuestionClickListener: OnQuestionClickListener) : BaseAdapter() {
 
     val onQuestionClickListener = onQuestionClickListener
+
+    var mDataSource = arrayListOf<MockAPISchemaItem>()
 
     private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -32,8 +34,16 @@ class QuestionsListAdapter(private val context: Context, private val dataSource:
         return rowView
     }
 
+    fun addAll(data: MockAPISchema) {
+        mDataSource.addAll(data)
+    }
+
+    fun clear() {
+        mDataSource.clear()
+    }
+
     override fun getItem(position: Int): MockAPISchemaItem {
-        return dataSource[position]
+        return mDataSource[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -41,6 +51,6 @@ class QuestionsListAdapter(private val context: Context, private val dataSource:
     }
 
     override fun getCount(): Int {
-        return dataSource.size
+        return mDataSource.size
     }
 }

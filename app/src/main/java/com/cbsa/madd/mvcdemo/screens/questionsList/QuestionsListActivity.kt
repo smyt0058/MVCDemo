@@ -3,9 +3,8 @@ package com.cbsa.madd.mvcdemo.screens.questionsList
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.ArrayAdapter
+import android.view.LayoutInflater
 import android.widget.Toast
-import com.cbsa.madd.mvcdemo.R
 import com.cbsa.madd.mvcdemo.networking.MockAPI
 import com.cbsa.madd.mvcdemo.networking.MockAPISchema
 import com.cbsa.madd.mvcdemo.networking.MockAPISchemaItem
@@ -14,17 +13,21 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), OnQuestionClickListener  {
+class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener {
 
     val mockAPI by lazy {
         MockAPI.create(this)
     }
     var disposable: Disposable? = null
 
+    lateinit var mViewMvc: QuestionsListViewMvc
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        mViewMvc = QuestionsListViewMvcImpl(LayoutInflater.from(this), null)
+        mViewMvc.registerListener(this)
 
+        setContentView(mViewMvc.getRootView())
 
     }
 
@@ -47,16 +50,7 @@ class MainActivity : AppCompatActivity(), OnQuestionClickListener  {
 
     fun bindQuestions(questionArray: MockAPISchema) {
 
-        var listItems = arrayOfNulls<String>(questionArray.size)
-
-        for (i in 0 until questionArray.size) {
-            val question = questionArray[i]
-            listItems[i] = question.question
-        }
-
-        //val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems)
-        val adapter = QuestionsListAdapter(this, questionArray, this)
-        recipe_list_view.adapter = adapter
+        mViewMvc.bindQuestions(questionArray)
 
     }
 
