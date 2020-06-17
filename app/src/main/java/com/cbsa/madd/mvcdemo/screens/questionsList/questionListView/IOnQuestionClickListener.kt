@@ -1,8 +1,8 @@
-package com.cbsa.madd.mvcdemo.screens.questionsList
+package com.cbsa.madd.mvcdemo.screens.questionsList.questionListView
 
 import com.cbsa.madd.mvcdemo.networking.MockAPISchemaItem
 
-interface OnQuestionClickListener {
+interface IOnQuestionClickListener {
 
     fun onQuestionClicked(question: MockAPISchemaItem)
 

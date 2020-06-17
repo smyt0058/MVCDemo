@@ -8,23 +8,28 @@ import android.widget.Toast
 import com.cbsa.madd.mvcdemo.networking.MockAPI
 import com.cbsa.madd.mvcdemo.networking.MockAPISchema
 import com.cbsa.madd.mvcdemo.networking.MockAPISchemaItem
+import com.cbsa.madd.mvcdemo.screens.questionsList.questionListView.IQuestionsListViewMvc
+import com.cbsa.madd.mvcdemo.screens.questionsList.questionListView.QuestionsListViewMvcImpl
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.activity_main.*
 
-class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener {
+class QuestionsListActivity : AppCompatActivity(), IQuestionsListViewMvc.Listener {
 
     val mockAPI by lazy {
         MockAPI.create(this)
     }
     var disposable: Disposable? = null
 
-    lateinit var mViewMvc: QuestionsListViewMvc
+    lateinit var mViewMvc: IQuestionsListViewMvc
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mViewMvc = QuestionsListViewMvcImpl(LayoutInflater.from(this), null)
+        mViewMvc =
+            QuestionsListViewMvcImpl(
+                LayoutInflater.from(this),
+                null
+            )
         mViewMvc.registerListener(this)
 
         setContentView(mViewMvc.getRootView())
