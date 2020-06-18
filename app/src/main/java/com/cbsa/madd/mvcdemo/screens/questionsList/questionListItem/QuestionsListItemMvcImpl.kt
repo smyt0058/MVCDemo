@@ -8,7 +8,7 @@ import com.cbsa.madd.mvcdemo.R
 import com.cbsa.madd.mvcdemo.networking.MockAPISchemaItem
 import com.cbsa.madd.mvcdemo.screens.common.BaseObservableViewMvc
 
-class QuestionsListItemMvcImpl(inflater: LayoutInflater, parent: ViewGroup) : BaseObservableViewMvc<IQuestionsListItemMvc.Listener>(),
+class QuestionsListItemMvcImpl(inflater: LayoutInflater, parent: ViewGroup?) : BaseObservableViewMvc<IQuestionsListItemMvc.Listener>(),
     IQuestionsListItemMvc {
 
     init {

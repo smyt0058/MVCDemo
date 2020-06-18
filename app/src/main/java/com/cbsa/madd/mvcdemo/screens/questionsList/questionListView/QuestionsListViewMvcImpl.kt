@@ -8,8 +8,13 @@ import com.cbsa.madd.mvcdemo.R
 import com.cbsa.madd.mvcdemo.networking.MockAPISchema
 import com.cbsa.madd.mvcdemo.networking.MockAPISchemaItem
 import com.cbsa.madd.mvcdemo.screens.common.BaseObservableViewMvc
+import com.cbsa.madd.mvcdemo.screens.common.ViewMvcFactory
 
-class QuestionsListViewMvcImpl(private val inflater: LayoutInflater, private val parent: ViewGroup?) : BaseObservableViewMvc<IQuestionsListViewMvc.Listener>(),
+class QuestionsListViewMvcImpl(
+    private val inflater: LayoutInflater,
+    private val parent: ViewGroup?,
+    private val viewMvcFactory: ViewMvcFactory
+) : BaseObservableViewMvc<IQuestionsListViewMvc.Listener>(),
     IOnQuestionClickListener,
     IQuestionsListViewMvc {
 
@@ -21,8 +26,7 @@ class QuestionsListViewMvcImpl(private val inflater: LayoutInflater, private val
 
     private val mQuestionsListAdapter =
         QuestionsRecyclerViewAdapter(
-            getContext(),
-            this
+            this, viewMvcFactory
         )
 
     init {

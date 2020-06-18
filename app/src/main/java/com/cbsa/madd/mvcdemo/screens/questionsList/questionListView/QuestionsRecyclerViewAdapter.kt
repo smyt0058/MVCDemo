@@ -8,10 +8,14 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.cbsa.madd.mvcdemo.networking.MockAPISchema
 import com.cbsa.madd.mvcdemo.networking.MockAPISchemaItem
+import com.cbsa.madd.mvcdemo.screens.common.ViewMvcFactory
 import com.cbsa.madd.mvcdemo.screens.questionsList.questionListItem.IQuestionsListItemMvc
 import com.cbsa.madd.mvcdemo.screens.questionsList.questionListItem.QuestionsListItemMvcImpl
 
-class QuestionsRecyclerViewAdapter(private val context: Context, onQuestionClickListener: IOnQuestionClickListener) : RecyclerView.Adapter<QuestionsRecyclerViewAdapter.MyViewHolder>(),
+class QuestionsRecyclerViewAdapter(
+    onQuestionClickListener: IOnQuestionClickListener,
+    private val viewMvcFactory: ViewMvcFactory
+) : RecyclerView.Adapter<QuestionsRecyclerViewAdapter.MyViewHolder>(),
     IQuestionsListItemMvc.Listener {
 
     private val mOnQuestionClickListener = onQuestionClickListener
@@ -33,11 +37,7 @@ class QuestionsRecyclerViewAdapter(private val context: Context, onQuestionClick
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val viewItemMvcImpl =
-            QuestionsListItemMvcImpl(
-                LayoutInflater.from(context),
-                parent
-            )
+        val viewItemMvcImpl = viewMvcFactory.getQuestionsListItemMvc(parent)
         viewItemMvcImpl.registerListener(this)
         return MyViewHolder(
             viewItemMvcImpl

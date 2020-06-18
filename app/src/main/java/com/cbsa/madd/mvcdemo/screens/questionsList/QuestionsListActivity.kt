@@ -1,35 +1,28 @@
 package com.cbsa.madd.mvcdemo.screens.questionsList
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.widget.Toast
-import com.cbsa.madd.mvcdemo.networking.MockAPI
 import com.cbsa.madd.mvcdemo.networking.MockAPISchema
 import com.cbsa.madd.mvcdemo.networking.MockAPISchemaItem
+import com.cbsa.madd.mvcdemo.screens.common.BaseActivity
 import com.cbsa.madd.mvcdemo.screens.questionsList.questionListView.IQuestionsListViewMvc
-import com.cbsa.madd.mvcdemo.screens.questionsList.questionListView.QuestionsListViewMvcImpl
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class QuestionsListActivity : AppCompatActivity(), IQuestionsListViewMvc.Listener {
+class QuestionsListActivity : BaseActivity(), IQuestionsListViewMvc.Listener {
 
-    val mockAPI by lazy {
-        MockAPI.create(this)
+    private val mockAPI by lazy {
+        getCompositionRoot().getMockApi(this)
     }
-    var disposable: Disposable? = null
+    private var disposable: Disposable? = null
 
-    lateinit var mViewMvc: IQuestionsListViewMvc
+    private lateinit var mViewMvc: IQuestionsListViewMvc
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mViewMvc =
-            QuestionsListViewMvcImpl(
-                LayoutInflater.from(this),
-                null
-            )
+        mViewMvc = getCompositionRoot().getViewMvcFactory().getQuestionsListViewMvc(null)
         mViewMvc.registerListener(this)
 
         setContentView(mViewMvc.getRootView())
@@ -42,7 +35,7 @@ class QuestionsListActivity : AppCompatActivity(), IQuestionsListViewMvc.Listene
 
     }
 
-    fun fetchQuestions() {
+    private fun fetchQuestions() {
         disposable =
             mockAPI.getQuestions()
                 .subscribeOn(Schedulers.io())
@@ -53,7 +46,7 @@ class QuestionsListActivity : AppCompatActivity(), IQuestionsListViewMvc.Listene
                 )
     }
 
-    fun bindQuestions(questionArray: MockAPISchema) {
+    private fun bindQuestions(questionArray: MockAPISchema) {
 
         mViewMvc.bindQuestions(questionArray)
 
