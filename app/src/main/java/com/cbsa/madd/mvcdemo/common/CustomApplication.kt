@@ -1,4 +1,4 @@
-package com.cbsa.madd.mvcdemo
+package com.cbsa.madd.mvcdemo.common
 
 import android.app.Application
 import com.cbsa.madd.mvcdemo.common.dependencyInjection.CompositionRoot

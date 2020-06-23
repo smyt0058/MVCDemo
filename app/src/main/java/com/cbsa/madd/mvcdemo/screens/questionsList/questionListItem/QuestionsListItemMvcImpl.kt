@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.cbsa.madd.mvcdemo.R
 import com.cbsa.madd.mvcdemo.networking.MockAPISchemaItem
-import com.cbsa.madd.mvcdemo.screens.common.BaseObservableViewMvc
+import com.cbsa.madd.mvcdemo.screens.common.views.BaseObservableViewMvc
 
 class QuestionsListItemMvcImpl(inflater: LayoutInflater, parent: ViewGroup?) : BaseObservableViewMvc<IQuestionsListItemMvc.Listener>(),
     IQuestionsListItemMvc {

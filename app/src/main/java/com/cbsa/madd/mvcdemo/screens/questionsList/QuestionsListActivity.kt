@@ -1,29 +1,22 @@
 package com.cbsa.madd.mvcdemo.screens.questionsList
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import com.cbsa.madd.mvcdemo.networking.MockAPISchema
-import com.cbsa.madd.mvcdemo.networking.MockAPISchemaItem
-import com.cbsa.madd.mvcdemo.screens.common.BaseActivity
-import com.cbsa.madd.mvcdemo.screens.questionsList.questionListView.IQuestionsListViewMvc
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
+import com.cbsa.madd.mvcdemo.questions.FetchQuestionsListUseCase
+import com.cbsa.madd.mvcdemo.screens.common.controllers.BaseActivity
 
-class QuestionsListActivity : BaseActivity(), IQuestionsListViewMvc.Listener {
+class QuestionsListActivity : BaseActivity() {
 
-    private val mockAPI by lazy {
-        getCompositionRoot().getMockApi(this)
-    }
-    private var disposable: Disposable? = null
+    private val mFetchQuestionsListUseCase: FetchQuestionsListUseCase = getCompositionRoot().getFetchQuestionsListUseCase(this)
 
-    private lateinit var mViewMvc: IQuestionsListViewMvc
+    private val mQuestionsListController: QuestionsListController = getCompositionRoot().getQuestionsListController()
+
+    //private lateinit var mViewMvc: IQuestionsListViewMvc
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mViewMvc = getCompositionRoot().getViewMvcFactory().getQuestionsListViewMvc(null)
-        mViewMvc.registerListener(this)
+        val mViewMvc = getCompositionRoot().getViewMvcFactory().getQuestionsListViewMvc(null)
+        //mViewMvc.registerListener(this)
+        mQuestionsListController.bindView(mViewMvc)
 
         setContentView(mViewMvc.getRootView())
 
@@ -31,30 +24,35 @@ class QuestionsListActivity : BaseActivity(), IQuestionsListViewMvc.Listener {
 
     override fun onStart() {
         super.onStart()
-        fetchQuestions()
-
+        mQuestionsListController.onStart()
+//        mFetchQuestionsListUseCase.registerListener(this)
+//        mFetchQuestionsListUseCase.fetchQuestionsListAndNotify()
     }
 
-    private fun fetchQuestions() {
-        disposable =
-            mockAPI.getQuestions()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    { result -> bindQuestions(result) },
-                    { error -> Log.i("MainActivity", error.toString()) }
-                )
+    override fun onStop() {
+        super.onStop()
+        mQuestionsListController.onStop()
+        //mFetchQuestionsListUseCase.unregisterListener(this)
     }
 
-    private fun bindQuestions(questionArray: MockAPISchema) {
+//    private fun bindQuestions(questionArray: MockAPISchema) {
+//
+//        mViewMvc.bindQuestions(questionArray)
+//
+//    }
 
-        mViewMvc.bindQuestions(questionArray)
-
-    }
-
-    override fun onQuestionClicked(question: MockAPISchemaItem) {
-        Toast.makeText(this, question.question, Toast.LENGTH_SHORT).show()
-    }
+//    override fun onQuestionClicked(question: MockAPISchemaItem) {
+////        Toast.makeText(this, question.question, Toast.LENGTH_SHORT).show()
+//        QuestionDetailsActivity().start(this, question.id)
+//    }
+//
+//    override fun onQuestionsListFetched(questions: MockAPISchema) {
+//        mViewMvc.bindQuestions(questions)
+//    }
+//
+//    override fun onQuestionsListFetchFailed(error: Throwable?) {
+//        Log.i("QuestionsListActivity", error.toString())
+//    }
 
 
 }

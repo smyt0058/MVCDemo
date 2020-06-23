@@ -1,10 +1,11 @@
-package com.cbsa.madd.mvcdemo.screens.common
+package com.cbsa.madd.mvcdemo.screens.common.views
 
 import android.util.Log
 import java.util.*
 import kotlin.collections.HashSet
 
-abstract class BaseObservableViewMvc<ListenerType> : BaseViewMvc(), IObservableViewMvc<ListenerType>{
+abstract class BaseObservableViewMvc<ListenerType> : BaseViewMvc(),
+    IObservableViewMvc<ListenerType> {
 
     private var mListeners: Set<ListenerType> = HashSet()
 

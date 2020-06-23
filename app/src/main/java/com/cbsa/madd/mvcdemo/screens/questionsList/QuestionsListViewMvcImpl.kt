@@ -1,13 +1,14 @@
-package com.cbsa.madd.mvcdemo.screens.questionsList.questionListView
+package com.cbsa.madd.mvcdemo.screens.questionsList
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cbsa.madd.mvcdemo.R
 import com.cbsa.madd.mvcdemo.networking.MockAPISchema
 import com.cbsa.madd.mvcdemo.networking.MockAPISchemaItem
-import com.cbsa.madd.mvcdemo.screens.common.BaseObservableViewMvc
+import com.cbsa.madd.mvcdemo.screens.common.views.BaseObservableViewMvc
 import com.cbsa.madd.mvcdemo.screens.common.ViewMvcFactory
 
 class QuestionsListViewMvcImpl(
@@ -22,7 +23,9 @@ class QuestionsListViewMvcImpl(
         setRootView(inflater.inflate(R.layout.activity_main, parent, false))
     }
 
-    private val recyclerView: RecyclerView = getRootView().findViewById(R.id.recipe_list_view)
+    private val mRecyclerView: RecyclerView = getRootView().findViewById(R.id.recipe_list_view)
+    private val mToolBar: Toolbar = getRootView().findViewById(R.id.my_toolbar)
+    private val mToolbarViewMvc = viewMvcFactory.getToolbarViewMvc(mToolBar)
 
     private val mQuestionsListAdapter =
         QuestionsRecyclerViewAdapter(
@@ -30,8 +33,10 @@ class QuestionsListViewMvcImpl(
         )
 
     init {
-        recyclerView.adapter = mQuestionsListAdapter
-        recyclerView.layoutManager = LinearLayoutManager(getContext())
+        mRecyclerView.adapter = mQuestionsListAdapter
+        mRecyclerView.layoutManager = LinearLayoutManager(getContext())
+        mToolbarViewMvc.setTitle("Questions List")
+        mToolBar.addView(mToolbarViewMvc.getRootView())
     }
 
     override fun onQuestionClicked(question: MockAPISchemaItem) {

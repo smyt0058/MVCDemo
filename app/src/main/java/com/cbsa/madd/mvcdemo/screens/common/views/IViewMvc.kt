@@ -1,4 +1,4 @@
-package com.cbsa.madd.mvcdemo.screens.common
+package com.cbsa.madd.mvcdemo.screens.common.views
 
 import android.view.View
 

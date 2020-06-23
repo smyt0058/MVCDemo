@@ -1,8 +1,6 @@
-package com.cbsa.madd.mvcdemo.screens.questionsList.questionListView
+package com.cbsa.madd.mvcdemo.screens.questionsList
 
-import android.content.Context
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -10,7 +8,6 @@ import com.cbsa.madd.mvcdemo.networking.MockAPISchema
 import com.cbsa.madd.mvcdemo.networking.MockAPISchemaItem
 import com.cbsa.madd.mvcdemo.screens.common.ViewMvcFactory
 import com.cbsa.madd.mvcdemo.screens.questionsList.questionListItem.IQuestionsListItemMvc
-import com.cbsa.madd.mvcdemo.screens.questionsList.questionListItem.QuestionsListItemMvcImpl
 
 class QuestionsRecyclerViewAdapter(
     onQuestionClickListener: IOnQuestionClickListener,
